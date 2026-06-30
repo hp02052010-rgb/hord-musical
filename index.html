@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Basuri Music Player</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#111;
+    color:white;
+}
+
+header{
+    background:#1e88e5;
+    padding:15px;
+    text-align:center;
+    font-size:24px;
+    font-weight:bold;
+}
+
+.list{
+    height:calc(100vh - 60px);
+    overflow-y:auto;
+}
+
+.song{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px;
+    border-bottom:1px solid #333;
+    cursor:pointer;
+}
+
+.song:hover{
+    background:#222;
+}
+
+.song.active{
+    background:#1565c0;
+}
+
+button{
+    border:none;
+    padding:10px 20px;
+    border-radius:8px;
+    background:#00c853;
+    color:white;
+    font-size:16px;
+}
+
+button.stop{
+    background:#e53935;
+}
+</style>
+</head>
+
+<body>
+
+<header>🎵 Basuri Player</header>
+
+<div class="list">
+
+<div class="song">
+<span>Basuri 1</span>
+<button>Play</button>
+<audio src="music/basuri1.mp3"></audio>
+</div>
+
+<div class="song">
+<span>Basuri 2</span>
+<button>Play</button>
+<audio src="music/basuri2.mp3"></audio>
+</div>
+
+<div class="song">
+<span>Basuri 3</span>
+<button>Play</button>
+<audio src="music/basuri3.mp3"></audio>
+</div>
+
+<div class="song">
+<span>Basuri 4</span>
+<button>Play</button>
+<audio src="music/basuri4.mp3"></audio>
+</div>
+
+<div class="song">
+<span>Basuri 5</span>
+<button>Play</button>
+<audio src="music/basuri5.mp3"></audio>
+</div>
+
+</div>
+
+<script>
+let currentAudio = null;
+let currentButton = null;
+let currentSong = null;
+
+document.querySelectorAll(".song").forEach(song=>{
+
+const btn = song.querySelector("button");
+const audio = song.querySelector("audio");
+
+btn.onclick = ()=>{
+
+if(currentAudio && currentAudio!==audio){
+currentAudio.pause();
+currentAudio.currentTime=0;
+currentButton.textContent="Play";
+currentButton.classList.remove("stop");
+currentSong.classList.remove("active");
+}
+
+if(audio.paused){
+
+audio.play();
+
+btn.textContent="Stop";
+btn.classList.add("stop");
+song.classList.add("active");
+
+currentAudio=audio;
+currentButton=btn;
+currentSong=song;
+
+}else{
+
+audio.pause();
+audio.currentTime=0;
+
+btn.textContent="Play";
+btn.classList.remove("stop");
+song.classList.remove("active");
+
+currentAudio=null;
+}
+
+audio.onended=()=>{
+btn.textContent="Play";
+btn.classList.remove("stop");
+song.classList.remove("active");
+currentAudio=null;
+};
+
+};
+
+});
+</script>
+
+</body>
+</html>
